@@ -23,4 +23,30 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.post("/", async (req, res) => {
+    try {
+        const { name, category, sustainabilityScore } = req.body;
+
+        // Validate request body
+        if (!name || !category || sustainabilityScore === undefined) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        // Create new product
+        const newProduct = new Product({
+            name,
+            category,
+            sustainabilityScore
+        });
+
+        // Save to database
+        await newProduct.save();
+        res.status(201).json({ message: "Product added successfully", product: newProduct });
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 module.exports = router;

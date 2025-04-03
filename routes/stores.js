@@ -23,4 +23,26 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.post("/", async (req, res) => {
+    try {
+        const { name, location, category } = req.body;
+
+        if (!name || !location || !category) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        const newStore = new Store({
+            name,
+            location,
+            category
+        });
+
+        await newStore.save();
+        res.status(201).json({ message: "Store added successfully", store: newStore });
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 module.exports = router;
