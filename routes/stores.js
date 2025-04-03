@@ -45,4 +45,30 @@ router.post("/", async (req, res) => {
     }
 });
 
+// PUT: Update an existing store by ID
+router.put("/:id", async (req, res) => {
+    try {
+        const { name, location, category } = req.body;
+
+        if (!name && !location && !category) {
+            return res.status(400).json({ error: "At least one field is required to update" });
+        }
+
+        const updatedStore = await Store.findByIdAndUpdate(
+            req.params.id,
+            { name, location, category },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedStore) {
+            return res.status(404).json({ error: "Store not found" });
+        }
+
+        res.json({ message: "Store updated successfully", store: updatedStore });
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 module.exports = router;

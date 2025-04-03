@@ -48,5 +48,34 @@ router.post("/", async (req, res) => {
     }
 });
 
+// PUT: Update an existing product by ID
+router.put("/:id", async (req, res) => {
+    try {
+        const { name, category, sustainabilityScore } = req.body;
+
+        // Validate request body
+        if (!name && !category && sustainabilityScore === undefined) {
+            return res.status(400).json({ error: "At least one field is required to update" });
+        }
+
+        // Find and update the product
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            { name, category, sustainabilityScore },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        res.json({ message: "Product updated successfully", product: updatedProduct });
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 
 module.exports = router;
