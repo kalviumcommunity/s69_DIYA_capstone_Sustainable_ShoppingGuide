@@ -4,7 +4,8 @@
   "description": "Eco-Friendly Shopping Guide is a web or mobile app that helps users discover eco-friendly products, sustainable brands, and nearby stores that support green initiatives. It promotes sustainable shopping habits by recommending ethical, biodegradable, recycled, and energy-efficient products.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
