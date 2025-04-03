@@ -1,0 +1,25 @@
+{
+  "name": "capstone_sustainable_shopping_guide",
+  "version": "1.0.0",
+  "description": "Eco-Friendly Shopping Guide is a web or mobile app that helps users discover eco-friendly products, sustainable brands, and nearby stores that support green initiatives. It promotes sustainable shopping habits by recommending ethical, biodegradable, recycled, and energy-efficient products.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalviumcommunity/s69_DIYA_capstone_Sustainable_ShoppingGuide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kalviumcommunity/s69_DIYA_capstone_Sustainable_ShoppingGuide/issues"
+  },
+  "homepage": "https://github.com/kalviumcommunity/s69_DIYA_capstone_Sustainable_ShoppingGuide#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.1"
+  }
+}
