@@ -5,8 +5,8 @@ const Store = require("../models/Store"); // Create this model later
 // GET all stores
 router.get("/", async (req, res) => {
     try {
-        const stores = await Store.find();
-        res.json(stores);
+        const stores = await Store.find().populate('products');
+  res.json(stores);
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
     }

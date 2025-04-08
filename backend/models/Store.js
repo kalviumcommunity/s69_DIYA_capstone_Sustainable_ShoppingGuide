@@ -38,7 +38,10 @@ const storeSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
+  //Implemented relationship between entitites
+
+  products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 });
 
 // Index to support geo queries
