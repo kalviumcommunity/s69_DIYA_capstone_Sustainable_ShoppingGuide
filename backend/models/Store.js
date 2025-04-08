@@ -1,9 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const StoreSchema = new mongoose.Schema({
-    name: String,
-    location: String,
-    category: String
+const storeSchema = new mongoose.Schema({
+  name: String,
+  category: String,
+  address: String,
+  coordinates: {
+    lat: Number,
+    lng: Number
+  },
+  website: String
 });
 
-module.exports = mongoose.model("Store", StoreSchema);
+module.exports = mongoose.model('Store', storeSchema);

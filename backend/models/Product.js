@@ -1,9 +1,23 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
-    name: String,
-    category: String,
-    sustainabilityScore: Number
+const productSchema = new mongoose.Schema({
+  name: String,
+  barcode: String,
+  category: String,
+  sustainabilityScore: Number,
+  certifications: [String],
+  impact: {
+    carbonSaved: Number,
+    waterSaved: Number
+  },
+  imageUrl: String,
+  sellerLinks: [
+    {
+      platform: String,
+      url: String,
+      verified: Boolean
+    }
+  ]
 });
 
-module.exports = mongoose.model("Product", ProductSchema);
+module.exports = mongoose.model('Product', productSchema);

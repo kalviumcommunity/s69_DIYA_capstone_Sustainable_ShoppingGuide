@@ -23,6 +23,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+//POST method
 router.post("/", async (req, res) => {
     try {
         const { name, location, category } = req.body;
