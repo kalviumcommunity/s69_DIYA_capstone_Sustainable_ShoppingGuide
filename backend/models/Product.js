@@ -10,6 +10,8 @@ const productSchema = new mongoose.Schema({
     carbonSaved: Number,
     waterSaved: Number
   },
+
+  
   imageUrl: String,
   sellerLinks: [
     {
@@ -17,7 +19,11 @@ const productSchema = new mongoose.Schema({
       url: String,
       verified: Boolean
     }
-  ]
+  ],
+
+  //Implemented relationship between entitites
+  addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  
 });
 
 module.exports = mongoose.model('Product', productSchema);
