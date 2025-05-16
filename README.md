@@ -90,3 +90,6 @@ Eco-Friendly Shopping Guide is a web or mobile app that helps users discover eco
 
 🚧 **Challenge:** Encouraging user engagement.
 ✅ **Solution:** Implement gamification (eco-points, badges, and rewards) to incentivize sustainable shopping.
+
+## Deploying backend server
+https://s69-diya-capstone-sustainable-umwh.onrender.com
