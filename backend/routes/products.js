@@ -1,94 +1,76 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
+const { body, validationResult } = require("express-validator");
 
 // GET all products
 router.get("/", async (req, res) => {
     try {
-        const products = await Product.find().populate('addedBy');
-  res.json(products);
-    } catch (error) {
+        const products = await Product.find();
+        res.json(products);
+    } catch {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-// GET a single product by ID
+// GET product by ID
 router.get("/:id", async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) return res.status(404).json({ error: "Product not found" });
         res.json(product);
-    } catch (error) {
+    } catch {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-//POST method
-router.post("/", async (req, res) => {
-    try {
-        const { name, category, sustainabilityScore } = req.body;
+// POST create product
+router.post(
+    "/",
+    [
+        body("name").notEmpty(),
+        body("category").notEmpty(),
+        body("sustainabilityScore").isNumeric(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-        // Validate request body
-        if (!name || !category || sustainabilityScore === undefined) {
-            return res.status(400).json({ error: "All fields are required" });
+        try {
+            const newProduct = new Product(req.body);
+            await newProduct.save();
+            res.status(201).json({ message: "Product added", product: newProduct });
+        } catch {
+            res.status(500).json({ error: "Internal Server Error" });
         }
-
-        // Create new product
-        const newProduct = new Product({
-            name,
-            category,
-            sustainabilityScore
-        });
-
-        // Save to database
-        await newProduct.save();
-        res.status(201).json({ message: "Product added successfully", product: newProduct });
-
-    } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
     }
-});
+);
 
-// PUT: Update an existing product by ID
+// PUT update product
 router.put("/:id", async (req, res) => {
     try {
-        const { name, category, sustainabilityScore } = req.body;
-
-        // Validate request body
-        if (!name && !category && sustainabilityScore === undefined) {
-            return res.status(400).json({ error: "At least one field is required to update" });
-        }
-
-        // Find and update the product
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
-            { name, category, sustainabilityScore },
+            req.body,
             { new: true, runValidators: true }
         );
-
-        if (!updatedProduct) {
-            return res.status(404).json({ error: "Product not found" });
-        }
-
-        res.json({ message: "Product updated successfully", product: updatedProduct });
-
-    } catch (error) {
+        if (!updatedProduct) return res.status(404).json({ error: "Product not found" });
+        res.json({ message: "Product updated", product: updatedProduct });
+    } catch {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
+// DELETE product
 router.delete("/:id", async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-        if (!deletedProduct) {
-            return res.status(404).json({ error: "Product not found" });
-        }
-        res.json({ message: "Product deleted successfully" });
-    } catch (error) {
+        if (!deletedProduct) return res.status(404).json({ error: "Product not found" });
+        res.json({ message: "Product deleted" });
+    } catch {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
-
 
 
 module.exports = router;

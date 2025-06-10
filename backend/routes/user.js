@@ -1,43 +1,67 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const { body, validationResult } = require("express-validator");
 
-// ✅ POST - Create a new user
-router.post("/", async (req, res) => {
-  try {
-    const newUser = new User(req.body); // assumes name, email, password, etc. are sent
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to create user", details: err.message });
+// POST create user with hashed password and validated input
+router.post(
+  "/",
+  [
+    body("name").notEmpty(),
+    body("email").isEmail(),
+    body("password").isLength({ min: 6 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    try {
+      const { name, email, password } = req.body;
+
+      const existingUser = await User.findOne({ email });
+      if (existingUser) return res.status(409).json({ error: "Email already in use" });
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new User({ name, email, password: hashedPassword });
+      await newUser.save();
+
+      res.status(201).json({ message: "User created", userId: newUser._id });
+    } catch (err) {
+      res.status(500).json({ error: "Server error", details: err.message });
+    }
   }
-});
+);
 
-// ✅ GET - Get all users
+// GET all users (omit password)
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find(); // get all users
+    const users = await User.find().select("-password");
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch users", details: err.message });
   }
 });
 
-// ✅ PUT - Update a user by ID
+// PUT update user (exclude password changes here)
 router.put("/:id", async (req, res) => {
   try {
+    const updates = { ...req.body };
+    delete updates.password;
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
-      req.body, // fields to update
-      { new: true } // return updated document
+      updates,
+      { new: true, runValidators: true }
     );
-
     if (!updatedUser) return res.status(404).json({ error: "User not found" });
 
-    res.json(updatedUser);
+    res.json({ message: "User updated", user: updatedUser });
   } catch (err) {
     res.status(500).json({ error: "Failed to update user", details: err.message });
   }
 });
+
 
 module.exports = router;
