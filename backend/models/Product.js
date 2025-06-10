@@ -8,4 +8,6 @@ const ProductSchema = new mongoose.Schema({
     certifications: [String],
 });
 
+
 module.exports = mongoose.model("Product", ProductSchema);
+
