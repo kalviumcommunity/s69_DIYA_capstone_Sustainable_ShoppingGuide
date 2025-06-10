@@ -1,29 +1,36 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 const cors = require("cors");
+require("dotenv").config();
 
-dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Middlewares
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/products", require("./routes/products"));
-app.use("/api/stores", require("./routes/stores"));
-app.use("/api/users", require("./routes/user"));
-
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("MongoDB connected"))
-    .catch((err) => console.error("MongoDB connection error:", err));
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-<<<<<<< HEAD
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-=======
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
->>>>>>> f3445015d50d6aa704435b582a174926f81b6c89
+// Routes
+const productRoutes = require("./routes/products");
+const storeRoutes = require("./routes/stores");
+const userRoutes = require("./routes/user");
+
+app.use("/products", productRoutes);
+app.use("/stores", storeRoutes);
+app.use("/users", userRoutes);  // ✅ This must exist to handle POST /users
+
+// Default route
+app.get("/", (req, res) => {
+    res.send("API is working");
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
