@@ -6,6 +6,8 @@ const ProductSchema = new mongoose.Schema({
     barcode: { type: String },
     sustainabilityScore: { type: Number, required: true },
     certifications: [String],
+    store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store' }, // Relationship added
+    likedByUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] // Many-to-many
 });
 
 

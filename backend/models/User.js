@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     badges: [String],
+    favoriteProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 });
 
 module.exports = mongoose.model("User", userSchema);
