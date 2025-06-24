@@ -3,7 +3,7 @@ const router = express.Router();
 const Product = require("../models/Product");
 const { body, validationResult } = require("express-validator");
 
-// GET all products
+// read
 router.get("/", async (req, res) => {
     try {
         const products = await Product.find();
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// POST create product
+// write
 router.post(
     "/",
     [
@@ -46,7 +46,7 @@ router.post(
     }
 );
 
-// PUT update product
+// write
 router.put("/:id", async (req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
@@ -61,7 +61,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// DELETE product
+// write
 router.delete("/:id", async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
