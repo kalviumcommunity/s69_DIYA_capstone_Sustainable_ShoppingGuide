@@ -3,7 +3,7 @@ const router = express.Router();
 const Store = require("../models/Store");
 const { body, validationResult } = require("express-validator");
 
-// GET all stores
+// read
 router.get("/", async (req, res) => {
     try {
         const stores = await Store.find();
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// POST create store
+// write
 router.post(
     "/",
     [
@@ -46,7 +46,7 @@ router.post(
     }
 );
 
-// PUT update store
+// write
 router.put("/:id", async (req, res) => {
     try {
         const updatedStore = await Store.findByIdAndUpdate(
