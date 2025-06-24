@@ -22,9 +22,9 @@ const productRoutes = require("./routes/products");
 const storeRoutes = require("./routes/stores");
 const userRoutes = require("./routes/user");
 
-app.use("/products", productRoutes);
-app.use("/stores", storeRoutes);
-app.use("/users", userRoutes);  // ✅ This must exist to handle POST /users
+app.use("/products", product);
+app.use("/stores", store);
+app.use("/users", user);  // ✅ This must exist to handle POST /users
 
 // Default route
 app.get("/", (req, res) => {
