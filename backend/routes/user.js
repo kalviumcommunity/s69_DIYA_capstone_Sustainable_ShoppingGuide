@@ -4,7 +4,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 
-// POST create user with hashed password and validated input
+// write
 router.post(
   "/",
   [
@@ -34,7 +34,7 @@ router.post(
   }
 );
 
-// GET all users (omit password)
+// read
 router.get("/", async (req, res) => {
   try {
     const users = await User.find().select("-password");
@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// PUT update user (exclude password changes here)
+// read
 router.put("/:id", async (req, res) => {
   try {
     const updates = { ...req.body };
