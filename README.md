@@ -89,4 +89,6 @@ Eco-Friendly Shopping Guide is a web or mobile app that helps users discover eco
 ✅ **Solution:** Use existing databases like Good On You, Ecolabel Index, Open Food Facts, and web scraping if necessary.
 
 🚧 **Challenge:** Encouraging user engagement.
-✅ **Solution:** Implement gamification (eco-points, badges, and rewards) to incentivize sustainable shopping.
+✅ **Solution:** Implement gamification (eco-points, badges, and rewards) to incentivize sustainable shopping.4
+
+Frontend deployement link = https://stellar-fudge-660d1e.netlify.app/
