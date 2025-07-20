@@ -1,0 +1,21 @@
+meta {
+  name: data api
+  type: http
+  seq: 2
+}
+
+get {
+  url: curl https://eco-shop-backend.onrender.com/api/products
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "name": "Healthy earth store",
+    "location":"India",
+      "category": "No use of plastics"
+    
+  }
+  
+}

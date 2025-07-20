@@ -1,0 +1,19 @@
+meta {
+  name: backend
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:5000/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"person1",
+    "email":"person@gmail.com",
+    "password":"person@123"
+  }
+}
